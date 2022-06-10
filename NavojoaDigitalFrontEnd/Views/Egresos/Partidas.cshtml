@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Partidas";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/assets/libs/gridjs/theme/mermaid.min.css">
+    <!-- nestable css -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/nestable2/1.6.0/jquery.nestable.min.css" rel="stylesheet" type="text/css" />
+}
+
+    <div class="dd">
+        <ol class="dd-list">
+            <li class="dd-item" data-id="1">
+                <div class="dd-handle">Item 1</div>
+            </li>
+            <li class="dd-item" data-id="2">
+                <div class="dd-handle">Item 2</div>
+            </li>
+            <li class="dd-item" data-id="3">
+                <div class="dd-handle">Item 3</div>
+                <ol class="dd-list">
+                    <li class="dd-item" data-id="4">
+                        <div class="dd-handle">Item 6</div>
+                    </li>
+                </ol>
+            </li>
+        </ol>
+    </div>
+
+
+    @section Scripts {
+    <!-- nestable css -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/nestable2/1.6.0/jquery.nestable.min.js"></script>
+
+    <script type="text/javascript">
+        /* ------------------------------------------------------------------------
+         * Nestable
+         * ------------------------------------------------------------------------ */
+
+        $('.dd').nestable({
+            onDragStart: function(l, e) {
+                // get type of dragged element
+                var type = $(e).data('type');
+
+                // based on type of dragged element add or remove no children class
+                switch (type) {
+                    case 'type1':
+                        // element of type1 can be child of type2 and type3
+                        l.find("[data-type=type2]").removeClass('dd-nochildren');
+                        l.find("[data-type=type3]").removeClass('dd-nochildren');
+                        break;
+                    case 'type2':
+                        // element of type2 cannot be child of type2 or type3
+                        l.find("[data-type=type2]").addClass('dd-nochildren');
+                        l.find("[data-type=type3]").addClass('dd-nochildren');
+                        break;
+                    case 'type3':
+                        // element of type3 cannot be child of type2 but can be child of type3
+                        l.find("[data-type=type2]").addClass('dd-nochildren');
+                        l.find("[data-type=type3]").removeClass('dd-nochildren');
+                        break;
+                    default:
+                        console.error("Invalid type");
+                }
+            }
+        });
+    </script>
+}
